@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Python Readiness Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: system-ui, sans-serif;
+    background: #fff;
+    margin: 0;
+    padding: 30px;
+    color: #111;
+}
+.container {
+    max-width: 700px;
+    margin: auto;
+}
+pre {
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+textarea {
+    width: 100%;
+    height: 120px;
+    margin-top: 10px;
+    font-family: monospace;
+}
+button {
+    margin-top: 15px;
+    padding: 12px 24px;
+    font-size: 1rem;
+}
+.result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+.no {
+    color: #b00020;
+}
+.yes {
+    color: #006400;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2 id="title"></h2>
+<pre id="code"></pre>
+
+<textarea id="answer" placeholder="Type your answer here (multi-line allowed)"></textarea>
+<br>
+<button onclick="submitAnswer()">Submit</button>
+
+<div class="result" id="result"></div>
+</div>
+
+<script>
+const questions = [
+{
+title: "1. print",
+code: `print("Hello" + " World")`,
+yes: ["hello world"],
+no: "Hello World"
+},
+{
+title: "2. variables",
+code: `x = 10\nx = x + 5\nprint(x)`,
+yes: ["15"],
+no: "15"
+},
+{
+title: "3. functions",
+code: `def add(a, b):\n    return a + b\n\nprint(add(2, 3))`,
+yes: ["5"],
+no: "5"
+},
+{
+title: "4. scope",
+code: `x = 5\n\ndef test():\n    x = 10\n    print(x)\n\ntest()\nprint(x)`,
+yes: ["10", "5"],
+no: "10\n5"
+},
+{
+title: "5. loops",
+code: `for i in range(3):\n    print(i)`,
+yes: ["0", "1", "2"],
+no: "0\n1\n2"
+},
+{
+title: "6. comparisons",
+code: `print(5 > 3)`,
+yes: ["true"],
+no: "True"
+},
+{
+title: "7. lists",
+code: `items = [1, 2, 3]\nitems.append(4)\nprint(items)`,
+yes: ["1", "2", "3", "4"],
+no: "[1, 2, 3, 4]"
+},
+{
+title: "8. turtle",
+code: `import turtle\nt = turtle.Turtle()\nt.forward(100)`,
+yes: ["forward", "100"],
+no: "Moves the turtle forward 100 pixels."
+},
+{
+title: "9. class",
+code: `class Dog:\n    def speak(self):\n        return "woof"\n\nd = Dog()\nprint(d.speak())`,
+yes: ["woof"],
+no: "woof"
+},
+{
+title: "10. errors",
+code: `print(x)`,
+yes: ["error", "nameerror"],
+no: "NameError: x is not defined"
+},
+{
+title: "11. tkinter",
+code: `import tkinter as tk\nroot = tk.Tk()\nroot.mainloop()`,
+yes: ["window", "gui"],
+no: "Opens a Tkinter window and waits for events."
+},
+{
+title: "12. making errors",
+code: `from tkinter import messagebox\nmessagebox.showerror("Error", "Invalid input")`,
+yes: ["error", "popup", "dialog"],
+no: "Shows an error message box titled 'Error'."
+}
+];
+
+let current = 0;
+
+function loadQuestion() {
+    document.getElementById("title").textContent = questions[current].title;
+    document.getElementById("code").textContent = questions[current].code;
+    document.getElementById("answer").value = "";
+    document.getElementById("result").textContent = "";
+}
+
+function submitAnswer() {
+    const user = document.getElementById("answer").value.toLowerCase();
+    const q = questions[current];
+
+    const correct = q.yes.every(k => user.includes(k));
+
+    if (correct) {
+        document.getElementById("result").textContent = "YES — correct.";
+        document.getElementById("result").className = "result yes";
+        current++;
+        if (current < questions.length) {
+            setTimeout(loadQuestion, 1000);
+        } else {
+            document.getElementById("result").textContent =
+                "YES — You are ready to continue learning Python 🎉";
+        }
+    } else {
+        document.getElementById("result").textContent =
+            "NO — it was:\n" + q.no;
+        document.getElementById("result").className = "result no";
+    }
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
