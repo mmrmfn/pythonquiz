@@ -52,7 +52,7 @@ button {
 <h2 id="title"></h2>
 <pre id="code"></pre>
 
-<textarea id="answer" placeholder="Type your answer here (multi-line allowed)"></textarea>
+<textarea id="answer" placeholder="what will this code output?"></textarea>
 <br>
 <button onclick="submitAnswer()">Submit</button>
 
@@ -151,12 +151,17 @@ function submitAnswer() {
     const correct = q.yes.every(k => user.includes(k));
 
     if (correct) {
+        console.log(`question ${current + 1} passed`);
+
         document.getElementById("result").textContent = "YES — correct.";
         document.getElementById("result").className = "result yes";
         current++;
+
         if (current < questions.length) {
             setTimeout(loadQuestion, 1000);
         } else {
+            console.log("test passed");
+
             document.getElementById("result").textContent =
                 "YES — You are ready to continue learning Python 🎉";
         }
@@ -166,6 +171,7 @@ function submitAnswer() {
         document.getElementById("result").className = "result no";
     }
 }
+
 
 loadQuestion();
 </script>
